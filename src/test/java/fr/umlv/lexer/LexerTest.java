@@ -180,6 +180,18 @@ public class LexerTest {
       );
   }
   @Tag("Q4") @Test
+  public void testOrNoHiddenSideEffect() {
+    var lexer1 = Lexer.from("([a-z]+)").map(__ -> 777);
+    var lexer2 = Lexer.from("([0-9]+)").map(Integer::parseInt);
+    var lexer3 = lexer1.or(lexer2);
+    assertAll(
+      () -> assertTrue(lexer1.tryParse("17").isEmpty()),
+      () -> assertTrue(lexer2.tryParse("aa").isEmpty()),
+      () -> assertTrue(lexer3.tryParse("17").isPresent()),
+      () -> assertTrue(lexer3.tryParse("aa").isPresent())
+    );
+  }
+  @Tag("Q4") @Test
   public void testOrNull() {
     assertThrows(NullPointerException.class, () -> Lexer.from("(f)oo").or(null));
   }
@@ -206,6 +218,18 @@ public class LexerTest {
         () -> assertEquals(7.0, (double)lexer.tryParse("7XX").orElseThrow()),
         () -> assertTrue(lexer.tryParse("XXX").isEmpty())
         );
+  }
+  @Tag("Q5") @Test
+  public void testWithNoSideEffect() {
+    var lexer1 = Lexer.empty();
+    var lexer2 = lexer1.with("(a*)b", String::length);
+    var lexer3 = lexer2.with("(c*)d", String::length);
+    assertAll(
+      () -> assertTrue(lexer1.tryParse("ccd").isEmpty()),
+      () -> assertTrue(lexer2.tryParse("ccd").isEmpty()),
+      () -> assertEquals(2, (int)lexer3.tryParse("ccd").orElseThrow()),
+      () -> assertEquals(3, (int)lexer3.tryParse("aaab").orElseThrow())
+    );
   }
   @Tag("Q5") @Test
   public void testWithOneCaptureGroup() {
@@ -386,6 +410,17 @@ public class LexerTest {
     );
   }
   @Tag("Q7") @Test
+  public void testFromTwoListsMapNoSideEffect() {
+    var lexer1 = Lexer.<Integer>from(List.of("(shazam)", "([0-9]+)"), List.of(__ -> -1,  Integer::parseInt));
+    var lexer2 = lexer1.map(x -> x * 2);
+    assertAll(
+      () -> assertEquals(-1, (int)lexer1.tryParse("shazam").orElseThrow()),
+      () -> assertEquals(17, (int)lexer1.tryParse("17").orElseThrow()),
+      () -> assertEquals(-2, (int)lexer2.tryParse("shazam").orElseThrow()),
+      () -> assertEquals(34, (int)lexer2.tryParse("17").orElseThrow())
+    );
+  }
+  @Tag("Q7") @Test
   public void testFromTwoListsOrAnotherFromTwoListsOptimization() {
     var lexer1 = Lexer.from(List.of("(finally)", "([a-z]+)"), List.of(__ -> 0,  __ -> 1));
     var lexer2 = Lexer.from(List.of("(123)", "([0-9]+)"), List.of(__ -> 2,  __ -> 3));
@@ -399,6 +434,18 @@ public class LexerTest {
       () -> assertSame(lexer1.getClass(), lexer2.getClass()),
       () -> assertSame(lexer1.getClass(), lexer3.getClass()),
       () -> assertSame(lexer2.getClass(), lexer3.getClass())
+    );
+  }
+  @Tag("Q7") @Test
+  public void testFromTwoListsOrNoHiddenSideEffect() {
+    var lexer1 = Lexer.from("([a-z]+)").map(__ -> 777);
+    var lexer2 = Lexer.from("([0-9]+)").map(Integer::parseInt);
+    var lexer3 = lexer1.or(lexer2);
+    assertAll(
+      () -> assertTrue(lexer1.tryParse("17").isEmpty()),
+      () -> assertTrue(lexer2.tryParse("aa").isEmpty()),
+      () -> assertTrue(lexer3.tryParse("17").isPresent()),
+      () -> assertTrue(lexer3.tryParse("aa").isPresent())
     );
   }
   
