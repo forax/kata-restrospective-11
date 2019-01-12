@@ -223,10 +223,10 @@ public class LexerTest {
   }
   @Tag("Q5") @Test
   public void testCreate() {
-    var lexer = Lexer.create(conf -> conf
+    var lexer = Lexer.create()
         .with("([0-9]+)",          Integer::parseInt)
         .with("([0-9]+\\.[0-9]*)", Double::parseDouble)
-        .with("([a-zA-Z]+)",       Function.identity()));
+        .with("([a-zA-Z]+)",       Function.identity());
     assertAll(
         () -> assertEquals("foo", lexer.tryParse("foo").orElseThrow()),
         () -> assertEquals(12.3, lexer.tryParse("12.3").orElseThrow()),
@@ -236,9 +236,9 @@ public class LexerTest {
   }
   @Tag("Q5") @Test
   public void testCreateSubGroup() {
-    var lexer = Lexer.create(conf -> conf
+    var lexer = Lexer.create()
         .with("(9)X?X?", Integer::parseInt)
-        .with("(7)X?X?", Double::parseDouble));
+        .with("(7)X?X?", Double::parseDouble);
     assertAll(
         () -> assertEquals(7.0, lexer.tryParse("7").orElseThrow()),
         () -> assertEquals(9, lexer.tryParse("9X").orElseThrow()),
@@ -248,8 +248,8 @@ public class LexerTest {
   }
   @Tag("Q5") @Test
   public void testCreateOneWith() {
-    var lexer = Lexer.<Integer>create(conf -> conf
-        .with("(3)X?X?", Integer::parseInt));
+    var lexer = Lexer.<Integer>create()
+        .with("(3)X?X?", Integer::parseInt);
     assertAll(
         () -> assertEquals(3, (int)lexer.tryParse("3").orElseThrow()),
         () -> assertTrue(lexer.tryParse("XXX").isEmpty())
@@ -257,15 +257,8 @@ public class LexerTest {
   }
   @Tag("Q5") @Test
   public void testCreateEmpty() {
-    var lexer = Lexer.create(conf -> conf);
+    var lexer = Lexer.create();
     assertTrue(lexer.tryParse("foo").isEmpty());
-  }
-  @Tag("Q5") @Test
-  public void testCreateNull() {
-    assertAll(
-        () -> assertThrows(NullPointerException.class, () -> Lexer.create(null)),
-        () -> assertThrows(NullPointerException.class, () -> Lexer.create(conf -> null))
-        );
   }
   
 
