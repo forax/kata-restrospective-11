@@ -65,7 +65,7 @@ Vérifier que les tests unitaires marqués Q8 passent, sinon modifier votre code
 
 ## Question 9
 
-Si vous ne l'avez pas déjà remarquer, nous voulons aussi laisser la possibilité de créer des Lexers
+Si vous ne l'avez pas déjà remarqué, nous voulons aussi laisser la possibilité de créer des Lexers
 qui ne sont pas liés à des expressions régulières.
 
 Par exemple, un lexer qui accepte n'importe quel texte
