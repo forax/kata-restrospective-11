@@ -1,17 +1,17 @@
-# kata retrospective 11
+# Kata Retrospective 11 - Partie 1
 
 L'idée de ce kata est d'implanter un [Lexer](https://en.wikipedia.org/wiki/Lexer) capable de transformer une chaine de caractère en tokens, c-a-d un mélange d'identifiant, de mot-clés, de valeurs numériques, etc. Pour reconnaitre si une chaine de caractère est un des tokens définies, on utilisera des expressions régulières. Le but de ce kata est plus de se focaliser sur l'API que sur l'implantation en elle même, cela tombe bien en Java, le package java.util.regex nous enlèves le poid d'avoir à ce ré-implantant la gestion des expressions régulières.
 
-Le kata est en deux parties, suivez ce [lien pour la seconde partie](kata-part2.md)
+Le kata est en deux parties, suivez ce [lien pour la seconde partie](kata-part2.md).
 
 
 ## Rappel sur java.util.regex
 
 Une expression régulière est représenté en Java par la classe Pattern.
-- la méthode static [Pattern.compile(regex)]() prend une expression régulière sous forme de String, et construit l'automate correspondant,
-- la méhode [pattern.matcher(text)]() créer un Matcher, un curseur sur l'automate qui se déplacera en fonction des caractères contenu dans `text`,
-- la méthode [matcher.matches()] déplace le curseur et renvoie vrai si le texte est reconnu par l'automate,
-- les méthodes [matcher.groupCount()]() et [matcher.group(index)] permet d'extraire les motifs reconnu par les groupes (un [groupe]() est une partie de l'expression régulière définie par des parenthèses, par convention le groupe 0 correspond à tout le texte).
+- la méthode static [Pattern.compile(regex)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html#compile(java.lang.String)) prend une expression régulière sous forme de String, et construit l'automate correspondant,
+- la méhode [pattern.matcher(text)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html#matcher(java.lang.CharSequence)) créer un Matcher, un curseur sur l'automate qui se déplacera en fonction des caractères contenu dans `text`,
+- la méthode [matcher.matches()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Matcher.html#matches()) déplace le curseur et renvoie vrai si le texte est reconnu par l'automate,
+- les méthodes [matcher.groupCount()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Matcher.html#groupCount()) et [matcher.group(index)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Matcher.html#group(int)) permet d'extraire les motifs reconnu par les groupes (un [groupe](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html#cg) est une partie de l'expression régulière définie par des parenthèses, par convention le groupe 0 correspond à tout le texte).
 
 Par exemple, une exécution du code suivant
 ```java
@@ -29,7 +29,7 @@ Note: il n'existe pas de moyen de demander à Pattern combien il y a de groupes 
 
 Un Lexer est un objet qui est configuré avec des expressions régulières et qui indique si un texte peut être transformer ou non en token.
 De façon abstraite, c'est une fonction qui prend un texte en entrée et qui soit renvoie un token (on va dire un T comme cela, cela marchera avec n'importe quoi) ou rien s'il le texte n'est pas reconnu.
-Note: un truc ou rien en Java, c'est un [Optional]().
+Note: un truc ou rien en Java, c'est un [Optional](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Optional.html).
 
 On va dans un premier temps, créer un lexer qui ne reconnait rien, que nous allons appeler <tt>empty</tt>.
 Ecrire un code dans Lexer.java de tel façon que l'exmple ci-dessous fonctionne. 
@@ -38,7 +38,7 @@ var lexer = Lexer.empty();
 System.out.println(lexer.tryParse("a_keyword").isEmpty());  // affcihe true  
 ```
 
-Vérifier que les [tests unitaires]() marqué Q1 (pour question 1) passent, sinon modifier votre code en conséquence.
+Vérifier que les [tests unitaires](https://github.com/forax/kata-restrospective-11/blob/master/src/test/java/fr/umlv/lexer/LexerTest.java) marqués Q1 (pour question 1) passent, sinon modifier votre code en conséquence.
 
 
 ## Question 2
@@ -56,8 +56,8 @@ System.out.println(lexer.tryParse("bar").isEmpty);  // affiche vrai
 et comme demander à l'utilisateur de faire des Pattern.compile à chaque fois, c'est pas terrible, on va ajouter une surchage à `from`
 pour que le code ci-dessus marche en faisant un `Lexer.from("([a-z]o)o")` directement.
 
-Vérifier que les [tests unitaires]() marqué Q2 passent, sinon modifier votre code en conséquence.
-Note: vous pouvez en même temps admirer comment on écrit en JUnit 5 des tests qui marche sur plusiuers implantations (ici from(Pattern) et from(String)).
+Vérifier que les tests unitaires marqués Q2 passent, sinon modifier votre code en conséquence.
+Note: vous pouvez en même temps admirer comment on écrit en [JUnit 5](https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests) des tests qui marche sur plusiuers implantations (ici from(Pattern) et from(String)).
 
 
 ## Question 3
@@ -74,7 +74,7 @@ var lexer = Lexer.from("([0-9]+)").map(Integer::parseInt);
 System.out.println(lexer.tryParse(404).orElseThrow());  // affiche 404 (sous forme d'Integer)
 ```
 
-Vérifier que les [tests unitaires]() marqué Q3 passent, sinon modifier votre code en conséquence.
+Vérifier que les tests unitaires marqués Q3 passent, sinon modifier votre code en conséquence.
 
 
 ## Question 4
@@ -90,7 +90,7 @@ var lexer2 = Lexer.from("([0-9]+\\.[0-9]*)").map(Double::parseDouble);
 var lexer3 = lexer1.or(lexer2);
 ```
 
-Vérifier que les [tests unitaires]() marqué Q4 passent, sinon modifier votre code en conséquence.
+Vérifier que les tests unitaires marqués Q4 passent, sinon modifier votre code en conséquence.
 
 
 ## Question 5
@@ -111,7 +111,7 @@ ainsi que la fonction permettant de transformer le texte en un objet.
 Puis on va ajouter la factory méthode <tt>create</tt>, qui renvoie un Lexer qui ne reconaissant rien et
 qui n'a pas d'autre rôle que d'abstraire la façon dont on créé le Lexer initialement.
 
-Vérifier que les [tests unitaires]() marqué Q5 passent, sinon modifier votre code en conséquence.
+Vérifier que les tests unitaires marqués Q5 passent, sinon modifier votre code en conséquence.
 
 Note: si vous ne voyez pas pourquoi cette méthode est là où quelle est la différence entre `empty` et `create`
 il va falloir faire la partie 2 pour comprendre
@@ -123,5 +123,5 @@ Félicitation vous avez réussi la première partie du kata, heu juste en passan
 que vous avez écrite jusqu'à présent ne font pas plus de 2 ou 3 lignes ?
 Sinon votre code est trop compliqué, il peut être simplifié !
 
-Une fois que vous êtes content de votre code, vous pouvez passer à la [Partie 2 !](kata-part2.md)
+Une fois que vous êtes content de votre code, vous pouvez passer à la [Partie 2](kata-part2.md).
 
