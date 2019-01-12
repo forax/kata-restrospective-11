@@ -375,6 +375,19 @@ public class LexerTest {
   
   
   @Tag("Q7") @Test
+  public void testFromTwoListsMapOptimization() {
+    var lexer1 = Lexer.<Integer>from(List.of("(magic)", "([0-9]+)"), List.of(__ -> 333,  Integer::parseInt));
+    var lexer2 = lexer1.map(x -> x * 2);
+    assertAll(
+      () -> assertEquals(666, (int)lexer2.tryParse("magic").orElseThrow()),
+      () -> assertEquals(34, (int)lexer2.tryParse("17").orElseThrow()),
+      () -> assertTrue(lexer2.tryParse("poison").isEmpty()),
+      () -> assertSame(lexer1.getClass(), lexer2.getClass())
+    );
+  }
+  
+  
+  @Tag("Q8") @Test
   public void testFromTwoListsOrAnotherFromTwoListsOptimization() {
     var lexer1 = Lexer.from(List.of("(finally)", "([a-z]+)"), List.of(__ -> 0,  __ -> 1));
     var lexer2 = Lexer.from(List.of("(123)", "([0-9]+)"), List.of(__ -> 2,  __ -> 3));
@@ -392,7 +405,7 @@ public class LexerTest {
   }
   
   
-  @Tag("Q7") @Test
+  @Tag("Q9") @Test
   public void testFromTwoListsWithOptimization() {
     var lexer1 = Lexer.from(List.of("(for)", "([a-z]+)"), List.of(__ -> 0,  __ -> 1));
     var lexer2 = lexer1.with("([0-9])+", __ -> 2);
@@ -404,15 +417,15 @@ public class LexerTest {
       () -> assertSame(lexer1.getClass(), lexer2.getClass())
     );
   }
-  @Tag("Q7") @Test
+  @Tag("Q9") @Test
   public void testCreateWithOptimization() {
     var lexer1 = Lexer.from(
         List.of("([0-9]+)",        "([0-9]+\\.[0-9]*)", "([a-zA-Z]+)"),
         List.of(Integer::parseInt, Double::parseDouble, x -> x));
-    var lexer2 = Lexer.create(conf -> conf
+    var lexer2 = Lexer.create()
         .with("([0-9]+)",          Integer::parseInt)
         .with("([0-9]+\\.[0-9]*)", Double::parseDouble)
-        .with("([a-zA-Z]+)",       x -> x));
+        .with("([a-zA-Z]+)",       x -> x);
     assertSame(lexer1.getClass(), lexer2.getClass());
   }*/
 }
