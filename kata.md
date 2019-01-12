@@ -31,11 +31,11 @@ Un Lexer est un objet qui est configuré avec des expressions régulières et qu
 De façon abstraite, c'est une fonction qui prend un texte en entrée et qui soit renvoie un token (on va dire un T comme cela, cela marchera avec n'importe quoi) ou rien s'il le texte n'est pas reconnu.
 Note: un truc ou rien en Java, c'est un [Optional](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Optional.html).
 
-On va dans un premier temps, créer un lexer qui ne reconnait rien, que nous allons appeler <tt>empty</tt>.
+On va dans un premier temps, créer un lexer qui ne reconnait rien, renvoyer en retour de la méthode `create`.
 Ecrire un code dans Lexer.java de tel façon que l'exmple ci-dessous fonctionne. 
 ```java
-var lexer = Lexer.empty();
-System.out.println(lexer.tryParse("a_keyword").isEmpty());  // affcihe true  
+var lexer = Lexer.create();
+System.out.println(lexer.tryParse("a_keyword").isEmpty());  // affiche true  
 ```
 
 Vérifier que les [tests unitaires](https://github.com/forax/kata-restrospective-11/blob/master/src/test/java/fr/umlv/lexer/LexerTest.java) marqués Q1 (pour question 1) passent, sinon modifier votre code en conséquence.
@@ -106,15 +106,9 @@ Enfin, pour finir cette première partie, on cherche maintenant à faire en sort
   System.out.println(lexer.tryParse("200").orElseThrow());   // affiche la valeur entière 200
 ```
 
-Pour cela, on va ajouter la méthode <tt>with</tt> à un Lexer et qui ajouter une nouvelle expression régulière
-ainsi que la fonction permettant de transformer le texte en un objet.
-Puis on va ajouter la factory méthode <tt>create</tt>, qui renvoie un Lexer qui ne reconaissant rien et
-qui n'a pas d'autre rôle que d'abstraire la façon dont on créé le Lexer initialement.
+Pour cela, ajouter la méthode <tt>with</tt> qui associe à une expression régulière une fonction à évaluer.
 
 Vérifier que les tests unitaires marqués Q5 passent, sinon modifier votre code en conséquence.
-
-Note: si vous ne voyez pas pourquoi cette méthode est là où quelle est la différence entre `empty` et `create`
-il va falloir faire la partie 2 pour comprendre
 
 
 ## Et la suite

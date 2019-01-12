@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
@@ -23,25 +24,25 @@ import org.junit.jupiter.params.provider.MethodSource;
 public class LexerTest {
   @Tag("Q1") @Test
   public void testEmpty() {
-    assertTrue(Lexer.empty().tryParse("foo").isEmpty());
+    assertTrue(Lexer.create().tryParse("foo").isEmpty());
   }
   @Tag("Q1") @Test @SuppressWarnings("unused")
   public void testEmptyTyped() {
-    Lexer<String> emptyString = Lexer.empty();
-    Lexer<Integer> emptyInteger = Lexer.empty();
+    Lexer<String> emptyString = Lexer.create();
+    Lexer<Integer> emptyInteger = Lexer.create();
   }
   @Tag("Q1") @Test
   public void testEmptyInterned() {
-    assertSame(Lexer.empty(), Lexer.empty());
+    assertSame(Lexer.create(), Lexer.create());
   }
   @Tag("Q1") @Test @SuppressWarnings("unused")
   public void testEmptyTryParseTyped() {
-    Optional<String> tokenString = Lexer.<String>empty().tryParse("foo");
-    Optional<Integer> tokenInteger = Lexer.<Integer>empty().tryParse("123");
+    Optional<String> tokenString = Lexer.<String>create().tryParse("foo");
+    Optional<Integer> tokenInteger = Lexer.<Integer>create().tryParse("123");
   }
   @Tag("Q1") @Test
   public void testEmptyTryParseNull() {
-    assertThrows(NullPointerException.class, () -> Lexer.empty().tryParse(null));
+    assertThrows(NullPointerException.class, () -> Lexer.create().tryParse(null));
   }
   
   /*
@@ -51,8 +52,8 @@ public class LexerTest {
   @SuppressWarnings("unused")
   private static Stream<LexerFactory> lexerFactories() {
     return Stream.of(
-      text -> Lexer.from(Pattern.compile(text)), Lexer::from //Q6 , text -> Lexer.from(List.of(text), List.of(x -> x))
-    );
+        text -> Lexer.from(Pattern.compile(text)), Lexer::from //, Q6 text -> Lexer.from(List.of(text), List.of(x -> x))
+        );
   }
   
   @Tag("Q2") @ParameterizedTest @MethodSource("lexerFactories")
@@ -120,8 +121,8 @@ public class LexerTest {
     assertAll(
       () -> assertTrue(Lexer.from("([0-9]+)").map(Integer::parseInt).tryParse("foo").isEmpty()),
       () -> assertTrue(Lexer.from("([0-9]+\\.[0-9]+)").map(Double::parseDouble).tryParse("bar").isEmpty()),
-      () -> assertTrue(Lexer.<String>empty().map(Integer::parseInt).tryParse("foo").isEmpty()),
-      () -> assertTrue(Lexer.<String>empty().map(Double::parseDouble).tryParse("bar").isEmpty())
+      () -> assertTrue(Lexer.<String>create().map(Integer::parseInt).tryParse("foo").isEmpty()),
+      () -> assertTrue(Lexer.<String>create().map(Double::parseDouble).tryParse("bar").isEmpty())
       );
   }
   @Tag("Q3") @Test
@@ -155,7 +156,7 @@ public class LexerTest {
   }
   @Tag("Q4") @Test
   public void testOrEmpty() {
-    var lexer = Lexer.empty().or(Lexer.empty());
+    var lexer = Lexer.create().or(Lexer.create());
     assertAll(
         () -> assertTrue(lexer.tryParse("42").isEmpty()),
         () -> assertTrue(lexer.tryParse("foo").isEmpty()),
@@ -199,7 +200,7 @@ public class LexerTest {
   
   @Tag("Q5") @Test
   public void testWith() {
-    var lexer = Lexer.<Integer>empty().with("(9)X?X?", Integer::parseInt);
+    var lexer = Lexer.<Integer>create().with("(9)X?X?", Integer::parseInt);
     assertAll(
         () -> assertEquals(9, (int)lexer.tryParse("9").orElseThrow()),
         () -> assertEquals(9, (int)lexer.tryParse("9X").orElseThrow()),
@@ -209,7 +210,7 @@ public class LexerTest {
   }
   @Tag("Q5") @Test
   public void testSeveralWiths() {
-    var lexer = Lexer.empty()
+    var lexer = Lexer.create()
         .with("(9)X?X?", Integer::parseInt)
         .with("(7)X?X?", Double::parseDouble);
     assertAll(
@@ -221,7 +222,7 @@ public class LexerTest {
   }
   @Tag("Q5") @Test
   public void testWithNoSideEffect() {
-    var lexer1 = Lexer.empty();
+    var lexer1 = Lexer.create();
     var lexer2 = lexer1.with("(a*)b", String::length);
     var lexer3 = lexer2.with("(c*)d", String::length);
     assertAll(
@@ -234,15 +235,15 @@ public class LexerTest {
   @Tag("Q5") @Test
   public void testWithOneCaptureGroup() {
     assertAll(
-      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.empty().with("bar", x -> x)),
-      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.empty().with("(foo)(bar)", x -> x))
+      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.create().with("bar", x -> x)),
+      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.create().with("(foo)(bar)", x -> x))
       );
   }
   @Tag("Q5") @Test
   public void testWithSomeNulls() {
     assertAll(
-      () -> assertThrows(NullPointerException.class, () -> Lexer.empty().with(null, x -> x)),
-      () -> assertThrows(NullPointerException.class, () -> Lexer.empty().with("(foo)", null))
+      () -> assertThrows(NullPointerException.class, () -> Lexer.create().with(null, x -> x)),
+      () -> assertThrows(NullPointerException.class, () -> Lexer.create().with("(foo)", null))
       );
   }
   @Tag("Q5") @Test
@@ -278,11 +279,6 @@ public class LexerTest {
         () -> assertEquals(3, (int)lexer.tryParse("3").orElseThrow()),
         () -> assertTrue(lexer.tryParse("XXX").isEmpty())
         );
-  }
-  @Tag("Q5") @Test
-  public void testCreateEmpty() {
-    var lexer = Lexer.create();
-    assertTrue(lexer.tryParse("foo").isEmpty());
   }
   
 
@@ -393,6 +389,7 @@ public class LexerTest {
         () -> assertThrows(NullPointerException.class, () -> Lexer.from(List.of(), null)),
         () -> assertThrows(NullPointerException.class, () -> Lexer.from(List.of((String)null), List.of())),
         () -> assertThrows(NullPointerException.class, () -> Lexer.from(List.of(), List.of((UnaryOperator<String>)null))),
+        () -> assertThrows(NullPointerException.class, () -> Lexer.from(List.of(), List.of()).tryParse(null)),
         () -> assertThrows(NullPointerException.class, () -> Lexer.from(List.of("(foo)"), List.of(x ->x)).tryParse(null))
         );
   }
@@ -464,13 +461,58 @@ public class LexerTest {
   }
   @Tag("Q8") @Test
   public void testCreateWithOptimization() {
-    var lexer1 = Lexer.from(
+    var lexer1 = Lexer.create();
+    var lexer2 = Lexer.from("(bob)");
+    var lexer3 = Lexer.from(
         List.of("([0-9]+)",        "([0-9]+\\.[0-9]*)", "([a-zA-Z]+)"),
         List.of(Integer::parseInt, Double::parseDouble, x -> x));
-    var lexer2 = Lexer.create()
+    var lexer4 = Lexer.create()
         .with("([0-9]+)",          Integer::parseInt)
         .with("([0-9]+\\.[0-9]*)", Double::parseDouble)
         .with("([a-zA-Z]+)",       x -> x);
     assertSame(lexer1.getClass(), lexer2.getClass());
+    assertSame(lexer1.getClass(), lexer3.getClass());
+    assertSame(lexer1.getClass(), lexer4.getClass());
+  }
+  
+  
+  @Tag("Q9") @Test
+  public void userDefinedLexer() {
+    Lexer<String> lexer = text -> Optional.of(text);
+    assertEquals("foo", lexer.tryParse("foo").orElseThrow());
+  }
+  @Tag("Q9") @Test
+  public void userDefinedLexerMap() {
+    Lexer<String> lexer = text -> Optional.of(text);
+    assertEquals(42, (int)lexer.map(Integer::parseInt).tryParse("42").orElseThrow());
+  }
+  @Tag("Q9") @Test
+  public void userDefinedLexerOr() {
+    Lexer<String> lexer1 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextInt());
+    Lexer<String> lexer2 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextDouble());
+    Lexer<String> lexer3 = lexer1.or(lexer2);
+    assertAll(
+      () -> assertEquals("42", lexer3.tryParse("42").orElseThrow()),
+      () -> assertEquals("100.5", lexer3.tryParse("100.5").orElseThrow())
+    );
+  }
+  @Tag("Q9") @Test
+  public void userDefinedLexerOrMix() {
+    Lexer<String> lexer1 = Lexer.from("(sully)");
+    Lexer<String> lexer2 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextDouble());
+    Lexer<String> lexer3 = lexer1.or(lexer2);
+    assertAll(
+      () -> assertEquals("sully", lexer3.tryParse("sully").orElseThrow()),
+      () -> assertEquals("100.5", lexer3.tryParse("100.5").orElseThrow())
+    );
+  }
+  @Tag("Q9") @Test
+  public void userDefinedLexerWith() {
+    Lexer<String> lexer1 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextInt());
+    Lexer<String> lexer2 = lexer1.with("(hello)", x -> x);
+    assertAll(
+      () -> assertEquals("42", lexer2.tryParse("42").orElseThrow()),
+      () -> assertEquals("hello", lexer2.tryParse("hello").orElseThrow())
+    );
   }*/
 }
