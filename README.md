@@ -11,17 +11,17 @@ Les features/[API](https://docs.oracle.com/en/java/javase/11/docs/api/index.html
 - Optional, Stream et Collector
 - List non modifiable: List.of(), List.copyOf(), Collectors.toUnmodifiableList()
 
-L'idée de ce kata est d'implanter un [Lexer](https://en.wikipedia.org/wiki/Lexer) qui est capable de transformer une chaine de caractère en tokens, c-a-d un mélange d'identifiant, de mot-clés, de valeurs numériques, etc. Pour reconnaitre si une chaine de caractère est un des tokens définies, on utilisera des expressions régulières. Le but de ce kata est plus de se focaliser sur l'API que sur l'implantation en elle même, cela tombe bien en Java, le package java.util.regex nous enlèves le poid d'avoir à ce ré-implantant la gestion des expressions régulières.
+L'idée de ce kata est d'implanter un [Lexer](https://en.wikipedia.org/wiki/Lexer) capable de transformer une chaine de caractère en tokens, c-a-d un mélange d'identifiant, de mot-clés, de valeurs numériques, etc. Pour reconnaitre si une chaine de caractère est un des tokens définies, on utilisera des expressions régulières. Le but de ce kata est plus de se focaliser sur l'API que sur l'implantation en elle même, cela tombe bien en Java, le package java.util.regex nous enlèves le poid d'avoir à ce ré-implantant la gestion des expressions régulières.
 
 Voilà une idée de l'API que l'on veut obtenir
 ```java
-  var lexer = Lexer.create(conf -> conf
+  var lexer = Lexer.create()
         .with("([0-9]+)",          Integer::parseInt)
         .with("([0-9]+\\.[0-9]*)", Double::parseDouble)
-        .with("([a-zA-Z]+)",       Function.identity()));
-  System.out.println(lexer.tryParse("foo").orElseThrow());   // affiche "foo" sous forme de String
-  System.out.println(lexer.tryParse("12.3").orElseThrow());  // affiche 12.3 sous forme de Double
-  System.out.println(lexer.tryParse("200").orElseThrow());   // affiche 200 sous forme d'Integer
+        .with("([a-zA-Z]+)",       Function.identity());
+  System.out.println(lexer.tryParse("foo").orElseThrow());   // affiche la chaine foo
+  System.out.println(lexer.tryParse("12.3").orElseThrow());  // affiche la valeur flottante 12.3
+  System.out.println(lexer.tryParse("200").orElseThrow());   // affiche la valeur entière 200
 ```
 
 Le kata est en deux parties, dans un premier temps, on va batir une API fonctionnelle permettant de faire fonctionner le code ci-dessus. Dans un second temps, on va poser la question de comment rendre le compte un peu plus efficace, en conservant la même API.
@@ -31,5 +31,6 @@ De plus, pour garantir que vous n'allez pas dans le mur ou que j'ai pas oublié 
 Si vous trouvez qu'il manque un test, vous voulez corriger quelque chose, j'attends vos pull requests.
 
 [Démarrer le kata !](kata.md)
+[Partie 2 !](kata-part2.md)
 
 Bon kata !
