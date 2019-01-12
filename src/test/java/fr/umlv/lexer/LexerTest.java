@@ -385,9 +385,7 @@ public class LexerTest {
       () -> assertSame(lexer1.getClass(), lexer2.getClass())
     );
   }
-  
-  
-  @Tag("Q8") @Test
+  @Tag("Q7") @Test
   public void testFromTwoListsOrAnotherFromTwoListsOptimization() {
     var lexer1 = Lexer.from(List.of("(finally)", "([a-z]+)"), List.of(__ -> 0,  __ -> 1));
     var lexer2 = Lexer.from(List.of("(123)", "([0-9]+)"), List.of(__ -> 2,  __ -> 3));
@@ -405,7 +403,7 @@ public class LexerTest {
   }
   
   
-  @Tag("Q9") @Test
+  @Tag("Q8") @Test
   public void testFromTwoListsWithOptimization() {
     var lexer1 = Lexer.from(List.of("(for)", "([a-z]+)"), List.of(__ -> 0,  __ -> 1));
     var lexer2 = lexer1.with("([0-9])+", __ -> 2);
@@ -417,7 +415,7 @@ public class LexerTest {
       () -> assertSame(lexer1.getClass(), lexer2.getClass())
     );
   }
-  @Tag("Q9") @Test
+  @Tag("Q8") @Test
   public void testCreateWithOptimization() {
     var lexer1 = Lexer.from(
         List.of("([0-9]+)",        "([0-9]+\\.[0-9]*)", "([a-zA-Z]+)"),
