@@ -31,6 +31,7 @@ De plus, pour garantir que vous n'allez pas dans le mur ou que j'ai pas oublié 
 Si vous trouvez qu'il manque un test, vous voulez corriger quelque chose, j'attends vos pull requests.
 
 [Démarrer le kata !](kata.md)
-[Partie 2 !](kata-part2.md)
+
+[Démarrer la partie 2 !](kata-part2.md)
 
 Bon kata !
