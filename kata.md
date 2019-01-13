@@ -117,9 +117,6 @@ Vérifier que les tests unitaires marqués Q5 passent, sinon modifier votre code
 
 ## Et la suite
 
-Félicitation vous avez réussi la première partie du kata, heu juste en passant, on est d'accord que toute les méthodes
-que vous avez écrite jusqu'à présent ne font pas plus de 2 ou 3 lignes ?
-Sinon votre code est trop compliqué, il peut être simplifié !
-
+Félicitation vous avez réussi la première partie du kata.
 Une fois que vous êtes content de votre code, vous pouvez passer à la [Partie 2](kata-part2.md).
 
