@@ -74,7 +74,7 @@ Par exemple, un lexer qui accepte n'importe quel texte
 ```
 
 
-Vérifier que les tests unitaires marqués Q8 passent, sinon modifier votre code en conséquence.
+Vérifier que les tests unitaires marqués Q9 passent, sinon modifier votre code en conséquence.
 
 
 ## That's all folk !
