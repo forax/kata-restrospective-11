@@ -1,13 +1,13 @@
 # Kata Retrospective 11 - Partie 1
 
-L'idée de ce kata est d'implanter un [Lexer](https://en.wikipedia.org/wiki/Lexer) capable de transformer une chaine de caractère en tokens, c-a-d un mélange d'identifiant, de mot-clés, de valeurs numériques, etc. Pour reconnaitre si une chaine de caractère est un des tokens définies, on utilisera des expressions régulières. Le but de ce kata est plus de se focaliser sur l'API que sur l'implantation en elle même, cela tombe bien en Java, le package java.util.regex nous enlèves le poid d'avoir à ce ré-implantant la gestion des expressions régulières.
+L'idée de ce kata est d'implanter un [Lexer](https://en.wikipedia.org/wiki/Lexer) capable de transformer une chaine de caractère en un token, c-a-d un identifiant, un mot-clé, une valeur numérique, etc. Pour reconnaitre si une chaine de caractère est un des tokens définis, on utilise des expressions régulières. Le but de ce kata est plus de se focaliser sur l'API que sur l'implantation en elle même, cela tombe bien, en Java le package java.util.regex nous enlèves le poid d'avoir à ré-implantant la gestion des expressions régulières.
 
 Le kata est en deux parties, suivez ce [lien pour la seconde partie](kata-part2.md).
 
 
 ## Rappel sur java.util.regex
 
-Une expression régulière est représenté en Java par la classe Pattern.
+Une expression régulière est représentée en Java par la classe Pattern.
 - la méthode static [Pattern.compile(regex)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html#compile(java.lang.String)) prend une expression régulière sous forme de String, et construit l'automate correspondant,
 - la méhode [pattern.matcher(text)](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Pattern.html#matcher(java.lang.CharSequence)) créer un Matcher, un curseur sur l'automate qui se déplacera en fonction des caractères contenu dans `text`,
 - la méthode [matcher.matches()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/regex/Matcher.html#matches()) déplace le curseur et renvoie vrai si le texte est reconnu par l'automate,
@@ -22,7 +22,7 @@ Par exemple, une exécution du code suivant
 ``` 
 affiche `true` car zoo est bien reconnu par le pattern [a-z]oo puis `zo` car le group 1 a capturé les lettres z et o (celles entre parenthèses).
 
-Note: il n'existe pas de moyen de demander à Pattern combien il y a de groupes dans l'expression régulière qui a servi à créer le Pattern, il faut créer un Matcher puis faire un groupCount.
+Note: il n'existe pas de moyen direct de demander à Pattern combien il y a de groupes dans l'expression régulière qui a servi à créer le Pattern, il faut créer un Matcher puis faire un groupCount.
 
 
 ## Question 1
