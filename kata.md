@@ -61,7 +61,7 @@ et comme demander à l'utilisateur de faire des Pattern.compile à chaque fois, 
 pour que le code ci-dessus marche en faisant un `Lexer.from("([a-z]o)o")` directement.
 
 Vérifier que les tests unitaires marqués Q2 passent, sinon modifier votre code en conséquence.
-Note: vous pouvez en même temps admirer comment on écrit en [JUnit 5](https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests) des tests qui marche sur plusiuers implantations (ici from(Pattern) et from(String)).
+Note: vous pouvez en même temps admirer comment on écrit en [JUnit 5](https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests) des tests qui marche sur plusieurs implantations (ici from(Pattern) et from(String)).
 
 
 ## Question 3
