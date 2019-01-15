@@ -24,3 +24,10 @@ hs_err_pid*
 /bin/
 /.classpath
 /.project
+
+# Intellij IDEA files
+.idea/
+*.iml
+
+# Maven
+target/
