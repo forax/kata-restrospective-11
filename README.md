@@ -35,3 +35,22 @@ Si vous trouvez qu'il manque un test, vous voulez corriger quelque chose, j'atte
 [Démarrer la partie 2](kata-part2.md)
 
 Bon kata !
+
+## Construction de projet avec Apache Maven
+
+Le projet contient un `pom.xml` vous permettant de construire le projet et de faire les tests au fur et à mesure.
+
+- `mvn clean install`
+
+Si vous n'avez pas [maven](http://maven.apache.org/) sur votre poste vous pouvez utiliser le wrapper fourni.
+
+- `mvnw clean install`
+
+Les différentes étapes du kata, et l'activation de leur tests associés se fait au travers de l'utilisation de profiles.
+
+- `mvn clean install -PQ1`: construit le projet et joue les tests 'taggués' _Q1_ 
+- `mvn clean install -PQ5`: construit le projet et joue les tests 'taggués' _Q1,Q2,Q3,Q4,Q5_ 
+  
+  
+  
+  
