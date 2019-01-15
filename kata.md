@@ -31,7 +31,8 @@ Un Lexer est un objet qui est configuré avec des expressions régulières et qu
 De façon abstraite, c'est une fonction qui prend un texte en entrée et qui 
 - soit renvoie un token (on va dire un T comme cela, cela marchera avec n'importe quoi)
 - soit renvoie rien si le texte n'est pas reconnu.
-Note: "un truc ou rien en Java", c'est un [Optional](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Optional.html).
+
+Note: "un truc ou rien" en Java, c'est un [Optional](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/Optional.html) .
 
 On va dans un premier temps, créer un Lexer (avec la méthode `create`) qui quelque soit le texte, ne le reconnait pas,
 ça à pas l'air super utile mais cela permet d'avoir une instance sur laquelle on peut, après, faire des choses intéressantes.
