@@ -1,0 +1,22 @@
+sudo: required
+
+language: java
+
+matrix:
+  include:
+
+    - jdk: openjdk11
+      
+    - jdk: oraclejdk11
+
+    - os: osx
+      jdk: openjdk11
+      
+    - os: osx
+      jdk: oraclejdk11
+
+install:
+  - java --version
+
+script:
+  - ./mvnw test -B
