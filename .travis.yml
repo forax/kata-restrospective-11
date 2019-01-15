@@ -19,4 +19,4 @@ install:
   - java --version
 
 script:
-  - ./mvnw test -B
+  - ./mvnw install
