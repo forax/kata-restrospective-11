@@ -26,7 +26,7 @@ si le second groupe contient une valeur alors on sait que c'est la second expres
 
 On va créer une nouvelle méthode `from()` qui prend deux listes en paramètres,
 la liste des expressions régulières et la liste des fonctions à appeler si l'expression régulière correspondante est reconnue
-et renvoie un Lexer qui implémentate l'algorithme décrit ci-dessus.
+et renvoie un Lexer qui implémente l'algorithme décrit ci-dessus.
 
 Voici un exemple d'utilisation
 ```java
@@ -34,6 +34,8 @@ Voici un exemple d'utilisation
       List.of("([0-9]+)",        "([0-9]+\\.[0-9]*)"),
       List.of(Integer::parseInt, Double::parseDouble));
 ```
+
+Note: ici, on peu utiliser [List.copyOf()](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/util/List.html#copyOf(java.util.Collection)).
 
 Vérifier que les tests unitaires marqués Q6 passent, sinon modifier votre code en conséquence.
 
