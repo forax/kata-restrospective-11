@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.Function;
@@ -488,8 +489,8 @@ public class LexerTest {
   }
   @Tag("Q9") @Test
   public void userDefinedLexerOr() {
-    Lexer<String> lexer1 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextInt());
-    Lexer<String> lexer2 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextDouble());
+    Lexer<String> lexer1 = text -> Optional.of(text).filter(_text -> new Scanner(_text).useLocale(Locale.ROOT).hasNextInt());
+    Lexer<String> lexer2 = text -> Optional.of(text).filter(_text -> new Scanner(_text).useLocale(Locale.ROOT).hasNextDouble());
     Lexer<String> lexer3 = lexer1.or(lexer2);
     assertAll(
       () -> assertEquals("42", lexer3.tryParse("42").orElseThrow()),
@@ -499,7 +500,7 @@ public class LexerTest {
   @Tag("Q9") @Test
   public void userDefinedLexerOrMix() {
     Lexer<String> lexer1 = Lexer.from("(sully)");
-    Lexer<String> lexer2 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextDouble());
+    Lexer<String> lexer2 = text -> Optional.of(text).filter(_text -> new Scanner(_text).useLocale(Locale.ROOT).hasNextDouble());
     Lexer<String> lexer3 = lexer1.or(lexer2);
     assertAll(
       () -> assertEquals("sully", lexer3.tryParse("sully").orElseThrow()),
@@ -508,7 +509,7 @@ public class LexerTest {
   }
   @Tag("Q9") @Test
   public void userDefinedLexerWith() {
-    Lexer<String> lexer1 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextInt());
+    Lexer<String> lexer1 = text -> Optional.of(text).filter(_text -> new Scanner(_text).useLocale(Locale.ROOT).hasNextInt());
     Lexer<String> lexer2 = lexer1.with("(hello)", x -> x);
     assertAll(
       () -> assertEquals("42", lexer2.tryParse("42").orElseThrow()),
