@@ -491,9 +491,10 @@ public class LexerTest {
     Lexer<String> lexer1 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextInt());
     Lexer<String> lexer2 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextDouble());
     Lexer<String> lexer3 = lexer1.or(lexer2);
+    String s_100_5 = String.format("%f", 100.5d);
     assertAll(
       () -> assertEquals("42", lexer3.tryParse("42").orElseThrow()),
-      () -> assertEquals("100.5", lexer3.tryParse("100.5").orElseThrow())
+      () -> assertEquals(s_100_5, lexer3.tryParse(s_100_5).orElseThrow())
     );
   }
   @Tag("Q9") @Test
@@ -501,9 +502,10 @@ public class LexerTest {
     Lexer<String> lexer1 = Lexer.from("(sully)");
     Lexer<String> lexer2 = text -> Optional.of(text).filter(_text -> new Scanner(_text).hasNextDouble());
     Lexer<String> lexer3 = lexer1.or(lexer2);
+    String s_100_5 = String.format("%f", 100.5d);
     assertAll(
       () -> assertEquals("sully", lexer3.tryParse("sully").orElseThrow()),
-      () -> assertEquals("100.5", lexer3.tryParse("100.5").orElseThrow())
+      () -> assertEquals(s_100_5, lexer3.tryParse(s_100_5).orElseThrow())
     );
   }
   @Tag("Q9") @Test
