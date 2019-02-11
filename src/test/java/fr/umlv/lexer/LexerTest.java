@@ -372,15 +372,15 @@ public class LexerTest {
   @Tag("Q6") @Test
   public void testFromTwoListsNotSameSize() {
     assertAll(
-      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.from(List.of("(foo)"), List.of())),
-      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.from(List.of(), List.of(x -> x)))
+      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.<Object>from(List.of("(foo)"), List.of())),
+      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.<Object>from(List.of(), List.of(x -> x)))
       );
   }
   @Tag("Q6") @Test
   public void testFromTwoListsNotOnlyOneGroup() {
     assertAll(
-      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.from(List.of("(foo)", "bar"), List.of(x -> x, x -> x))),
-      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.from(List.of("(foo)", "(bar)(baz)"), List.of(x -> x, x -> x)))
+      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.<Object>from(List.of("(foo)", "bar"), List.of(x -> x, x -> x))),
+      () -> assertThrows(IllegalArgumentException.class, () -> Lexer.<Object>from(List.of("(foo)", "(bar)(baz)"), List.of(x -> x, x -> x)))
       );
   }
   @Tag("Q6") @Test
