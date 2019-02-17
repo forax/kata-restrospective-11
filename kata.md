@@ -18,8 +18,8 @@ Une expression régulière est représentée en Java par la classe Pattern.
 Par exemple, une exécution du code suivant
 ```java
   var pattern = Pattern.compile("([a-z]o)o");
-  System.out.println(matcher.matches());
   var matcher = pattern.matcher("zoo");
+  System.out.println(matcher.matches());
   System.out.println(matcher.group(1));
 ``` 
 affiche `true` car zoo est bien reconnu par le pattern [a-z]oo puis `zo` car le group 1 a capturé les lettres z et o (celles entre parenthèses).
