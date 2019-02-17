@@ -27,7 +27,7 @@ Voilà une idée de l'API que l'on veut obtenir
 ```
 
 Le kata est en deux parties, dans un premier temps, on va bâtir une API fonctionnelle permettant de faire fonctionner le code ci-dessus. 
-Dans un second temps, on va poser la question de comment rendre le compte un peu plus efficace, en conservant la même API.
+Dans un second temps, on va poser la question de comment rendre le code un peu plus efficace, en conservant la même API.
 
 De plus, pour garantir que vous n'allez pas dans le mur ou que je n'ai pas oublié une exigence, 
 le kata vient avec une série de tests unitaires [JUnit 5](https://junit.org/junit5/docs/current/user-guide/) qui sert de spécification exécutable (Si vous vous posez la question de si j'ai fait du TDD pour créer les tests et l'implémentation, la réponse est non, comme pas mal de monde, j'itère sur le code et les tests en parallèle :) ).
